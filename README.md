@@ -48,16 +48,7 @@ The following scripts are available in the `package.json` file:
 Config
 ------
 
-In your project, you can create a `config.js` file and store your Spoonacular API key in it. Here's an example:
-
-javascript
-
-DownloadCopy code
-
-`1// config.js  2
-3module.exports  =  {  4  spoonacularApiKey:  'your-spoonacular-api-key',  5};`
-
-Then, in your `spoonacularApi.js` file, you can import and use the API key from the `config.js` file:
+in your `spoonacularApi.js` file, you can import and use the API key:
 
 javascript
 
