@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <% include ../include/main-layout.ejs %>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta keyword="Eten, Eten vergelijker, gezond, Voedsel">
+    <link rel="stylesheet" href="/stylesheets/tailwind.css">
     <title><%= title %></title>
   </head>
   <body>
-
-    
+    <%- include('./include/navbar.ejs') %>
 
     <!-- <% recipes.forEach(function(recipe) { %>
       <p class="text-blue-500"><%= recipe.title %></p>
