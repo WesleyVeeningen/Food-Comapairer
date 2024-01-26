@@ -67,6 +67,7 @@ DownloadCopy code
 const axios = require('axios');
 const config = require('./config');
 
+const apiKey = 'YOUR_API_KEY';
 const apiUrl = 'https://api.spoonacular.com/recipes/complexSearch';
 
 async function searchRecipes(query, number) {
