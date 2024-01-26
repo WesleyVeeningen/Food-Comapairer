@@ -1,7 +1,7 @@
 Food Comparer
 =============
 
-This project is a web application that allows users to compare different food items and view their nutritional information. It is built using Node.js, Express, and Tailwind CSS.
+This project is a web application that allows users to compare different food items and view their nutritional information. It is built using Node.js, Express, and Tailwind CSS, and uses the Spoonacular API to fetch data about food items.
 
 Getting Started
 ---------------
@@ -44,6 +44,55 @@ The following scripts are available in the `package.json` file:
 
 -   `start`: Starts the development server
 -   `tailwind`: Starts the tailwindcss build process
+
+Config
+------
+
+In your project, you can create a `config.js` file and store your Spoonacular API key in it. Here's an example:
+
+javascript
+
+DownloadCopy code
+
+`1// config.js  2
+3module.exports  =  {  4  spoonacularApiKey:  'your-spoonacular-api-key',  5};`
+
+Then, in your `spoonacularApi.js` file, you can import and use the API key from the `config.js` file:
+
+javascript
+
+DownloadCopy code
+
+```javascript
+const axios = require('axios');
+const config = require('./config');
+
+const apiUrl = 'https://api.spoonacular.com/recipes/complexSearch';
+
+async function searchRecipes(query, number) {
+ try {
+   const params = {
+     apiKey: config.spoonacularApiKey,
+     query: query,
+     number: number,
+   };
+
+   const response = await axios.get(apiUrl, { params });
+
+   // Handle the API response
+   console.log(response.data);
+   return response.data;
+ } catch (error) {
+   // Handle errors
+   console.error(error);
+   throw error; // Optionally rethrow the error for further handling
+ }
+}
+
+module.exports = {
+ searchRecipes: searchRecipes,
+};
+```
 
 Contributing
 ------------
