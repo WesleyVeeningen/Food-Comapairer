@@ -1,32 +1,253 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta keyword="Eten, Eten vergelijker, gezond, Voedsel">
-    <link rel="stylesheet" href="/stylesheets/tailwind.css">
-    <script src="https://kit.fontawesome.com/f8991e1757.js" crossorigin="anonymous"></script>
-    <!-- <title><%= title %></title> -->
-  </head>
-  <body class="bg-black">
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DataTables Example</title>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100">
+
+  <%- include('./include/navbar.ejs') %>
 
 
-      <main class="w-screen">
+    <div id="compaire_boxes" class="flex w-screen text-white h-72 gap-5 my-5 px-5">
+      <div id="box1" class="bg-black w-1/2 h-full">
+        <div id="food1_img">
+          <img src="" alt="">
+        </div>
+      </div>
+      <div id="box2" class="bg-black w-1/2 h-full">
 
-        <!-- FILEPATH: /Users/wesleyveeningen/Documents/GitHub/Food-Comapairer/views/index.ejs -->
-        <!-- BEGIN: ed8c6549bwf9 -->
- 
-<form class="container">   
+      </div>
+    </div>
 
-</form>
-
-        <!-- END: ed8c6549bwf9 -->
-
-      </main>
-      
-
-    <script src="https://cdn.tailwindcss.com/2.2.19/tailwind.min.js"></script>
+    <div id="chosenFoodContainer"></div>
 
 
-  </body>
+    <div class="container mx-auto p-4">
+      <form action="" class="flex justify-center mb-4">
+        <input type="text" class="w-1/2 border-2 border-gray-300 rounded-lg p-2" placeholder="Search for something...">
+      </form>
+      <table id="datatable" class="stripe hover display w-full">
+        <thead>
+          <tr>
+            <th class="p-2 rounded bg-gray-200"></th>
+            <th class="p-2 rounded bg-gray-200"></th>
+            <th class="p-2 rounded bg-gray-200">Name <i class="fas fa-sort"></i></th>
+            <th class="p-2 rounded bg-gray-200">Calories <i class="fas fa-sort"></i></th>
+            <th class="p-2 rounded bg-gray-200">Carbs <i class="fas fa-sort"></i></th>
+            <th class="p-2 rounded bg-gray-200">Fat <i class="fas fa-sort"></i></th>
+            <th class="p-2 rounded bg-gray-200">Protein <i class="fas fa-sort"></i></th>
+            <th class="p-2 rounded bg-gray-200">Allergens <i class="fas fa-sort"></i></th>
+            <th class="p-2 rounded bg-gray-200">Minerals <i class="fas fa-sort"></i></th>
+            <th class="p-2 rounded bg-gray-200">Vitamins <i class="fas fa-sort"></i></th>
+            <th class="p-2 rounded bg-gray-200">Is Healthy <i class="fas fa-sort"></i></th>
+          </tr>
+        </thead>
+        <tbody>
+          <form action="">
+            <% data.forEach((item)=> { %>
+              <tr class="bg-white hover:bg-gray-50">
+                <td class="p-2 rounded">
+                  <input class="FoodCheckbox" type="checkbox" onchange="addFood('<%= item.name %>')"
+                    value="<%= item.name %>" name="" id="">
+                </td>
+                <td class="p-2 rounded">
+                  <% if (item.image=="https://placehold.co/600x400/svg" ) { %>
+                    <img src="https://placehold.co/600x400/svg" class="w-32 h-auto" alt="">
+                    <!-- Adjust the width as needed -->
+                    <% } else { %>
+                      <img src="/images/<%= item.image %>" class="w-32 h-auto" alt="">
+                      <!-- Adjust the width as needed -->
+                      <% } %>
+                </td>
+                <td class="p-2 rounded">
+                  <%= item.name %>
+                </td>
+                <td class="p-2 rounded">
+                  <%= item.calories %>
+                </td>
+                <td class="p-2 rounded">
+                  <%= item.carbs %>
+                </td>
+                <td class="p-2 rounded">
+                  <%= item.fat %>
+                </td>
+                <td class="p-2 rounded">
+                  <%= item.protein %>
+                </td>
+                <td class="p-2 rounded">
+                  <%= item.allergens %>
+                </td>
+                <td class="p-2 rounded">
+                  <%= item.minerals %>
+                </td>
+                <td class="p-2 rounded">
+                  <%= item.vitamins %>
+                </td>
+                <td class="p-2 rounded">
+                  <%= item.is_healthy %>
+                </td>
+              </tr>
+              <form action="">
+
+                <% }); %>
+        </tbody>
+      </table>
+
+
+      <div class="flex justify-center mt-4">
+        <button id="filterBtn"
+          class="bg-blue-500 filterBtn hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
+          <i class="fas fa-filter"></i> Filter
+        </button>
+
+        <div id="filter_list" class="flex flex-col absolute mt-14 mr-[10rem]">
+          <button class="filter bg-white hover:bg-gray-100 text-gray-800 font-bold py-2 px-4 rounded mb-2"
+            onclick="filter('healthy')">Healthy</button>
+          <button class="filter bg-white hover:bg-gray-100 text-gray-800 font-bold py-2 px-4 rounded"
+            onclick="filter('unhealthy')">Unhealthy</button>
+        </div>
+
+        <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2">
+          <i class="fas fa-check"></i> Apply
+        </button>
+        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+          <i class="fas fa-times"></i> Clear
+        </button>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $('#datatable').DataTable({
+          searching: true, // Enable searching/filtering
+          paging: true, // Enable pagination
+          lengthChange: true, // Enable length change
+          ordering: true, // Enable ordering
+          info: true, // Enable info
+          autoWidth: false, // Disable auto width
+          responsive: true // Enable responsiveness
+        });
+
+        $('#filterBtn').on('click', function () {
+          $('#filter_list').toggle();
+        });
+      });
+
+      let chosenFood = [];
+
+      function addFood(name) {
+        if (chosenFood.includes(name)) {
+          chosenFood = chosenFood.filter(food => food !== name); // Remove the food from the chosenFood array
+        } else {
+          chosenFood.push(name); // Add the food to the chosenFood array
+        }
+
+        // Clear the contents of the boxes before adding new items
+        document.getElementById('box1').innerHTML = '';
+        document.getElementById('box2').innerHTML = '';
+
+        if (chosenFood.length >= 1) {
+          document.getElementById('box1').innerHTML = `<h1>${chosenFood[0]}</h1>`;
+          enableCheckboxes();
+        }
+
+        if (chosenFood.length === 2) {
+          document.getElementById('box2').innerHTML = `<h1>${chosenFood[1]}</h1>`;
+          disableCheckboxed();
+        }
+
+        // Call postFood only when you want to send the updated chosenFoods array to the server
+        if (chosenFood.length > 0) {
+          postFood();
+        }
+      }
+
+
+
+      function postFood() {
+  // Logging the chosenFood array
+  console.log("JSON Data:", JSON.stringify({ chosenFoods: chosenFood }));
+
+  // Sending POST request to the /data endpoint
+  fetch('/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ chosenFoods: chosenFood })
+  })
+  .then(response => {
+    // Check if response status is OK
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    // Parse response as JSON
+    return response.json();
+  })
+  .then(data => {
+    // Handle the received data (chosenFoods) from the server
+    console.log('Received chosen foods:', data.chosenFoods);
+
+    // Display the data of each chosen food in separate boxes on the frontend
+    const foodContainer = document.getElementById('foodContainer');
+    foodContainer.innerHTML = ''; // Clear previous content
+
+    data.chosenFoods.forEach(food => {
+      const foodBox = document.createElement('div');
+      foodBox.classList.add('food-box');
+
+      const foodContent = document.createElement('div');
+      foodContent.textContent = `Food Name: ${food.food_name}, Calories: ${food.calories}, Protein: ${food.protein}, Carbs: ${food.carbs}, Fat: ${food.fat}`;
+
+      foodBox.appendChild(foodContent);
+      foodContainer.appendChild(foodBox);
+    });
+  })
+  .catch(error => {
+    // Log and handle errors
+    console.error('Error:', error);
+    // You can add additional error handling here if needed
+  });
+}
+
+
+
+      function enableCheckboxes() {
+        let checkboxes = document.querySelectorAll('.FoodCheckbox');
+        checkboxes.forEach(function (checkbox) {
+          checkbox.disabled = false;
+        });
+      }
+
+      function disableCheckboxed() {
+        let checkboxes = document.querySelectorAll('.FoodCheckbox');
+        checkboxes.forEach(function (checkbox) {
+          if (!chosenFood.includes(checkbox.value)) {
+            checkbox.disabled = true;
+          }
+        });
+      }
+
+      spliceFood = (name) => {
+        chosenFood.forEach(function (food) {
+          if (food == name) {
+            chosenFood.splice(chosenFood.indexOf(food), 1);
+          }
+        });
+      }
+
+
+
+    </script>
+</body>
+
 </html>

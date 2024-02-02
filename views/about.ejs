@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/tailwind.css">
+    <script src="https://kit.fontawesome.com/f8991e1757.js" crossorigin="anonymous"></script>
+    <title><%= title %></title>
+</head>
+<body class="bg-gray-100 overflow-x-hidden">
+    <%- include('./include/navbar.ejs') %>
+
+    <div class="container mx-auto p-8">
+        <h1 class="text-4xl font-bold mb-4">About Us</h1>
+        <div class="flex flex-col-reverse md:flex-row">
+            <div class="md:w-1/2 md:pr-6">
+                <img src="https://via.placeholder.com/700x500" alt="image1" class="w-full rounded-lg mb-4 hidden md:block">
+                <p class="text-lg mb-8">
+                    But <span class="font-semibold">FoodCompairer</span> is more than just data, it's a <span class="font-semibold">community of passionate food enthusiasts</span>. Browse through a treasure trove of user-submitted recipes, each crafted with care and shared with the intention of supporting your unique journey. From savory dinners to guilt-free desserts, our diverse collection caters to every taste bud and dietary requirement.
+                    Join us on this gastronomic adventure where <span class="font-semibold">health meets flavor</span>, and where a supportive community encourages you to savor every bite while achieving your wellness aspirations. <span class="font-semibold">Explore, compare, and connect</span> - because at <span class="font-semibold">FoodCompairer</span>, we believe that nourishing your body should be both a delightful and informed experience.
+                </p>
+            </div>
+            <div class="md:w-1/2 md:pl-6">
+                <p class="text-lg mb-8">
+                    Welcome to our culinary hub, where we bring you a delectable fusion of nutrition and community at your fingertips. At <span class="font-semibold">FoodCompairer</span>, we believe that informed choices lead to a healthier, happier lifestyle. Our platform is your go-to destination for comparing nutritional content, whether you're counting calories or looking to up your protein intake.
+                    Dive into a world of food exploration as you navigate our <span class="font-semibold">user-friendly interface</span>, effortlessly comparing your favorite dishes to make informed dietary decisions. Discover the nutritional profiles of various meals, <span class="font-semibold">helping you meet your specific health and fitness goals</span>. Whether you're striving to shed a few pounds or bulk up with muscle, we've got you covered.
+                </p>
+                <img src="https://via.placeholder.com/700x500" alt="image2" class="w-full rounded-lg mb-4 hidden md:block">
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.tailwindcss.com/2.2.19/tailwind.min.js"></script>
+
+</body>
+
+</html>
