@@ -167,58 +167,48 @@
 
         // Call postFood only when you want to send the updated chosenFoods array to the server
         if (chosenFood.length > 0) {
-          postFood();
+          sendChosenFoodToBackend();
         }
       }
 
 
+  function sendChosenFoodToBackend() {
+    $.ajax({
+      type: 'POST',
+      url: '/fetch-food-data',
+      data: { chosenFood: chosenFood }, // Send chosen food names as data
+      success: function(response) {
+        if (response.success) {
+          // Clear existing table data
+          $('#datatable tbody').empty();
 
-      function postFood() {
-  // Logging the chosenFood array
-  console.log("JSON Data:", JSON.stringify({ chosenFoods: chosenFood }));
-
-  // Sending POST request to the /data endpoint
-  fetch('/', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ chosenFoods: chosenFood })
-  })
-  .then(response => {
-    // Check if response status is OK
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    // Parse response as JSON
-    return response.json();
-  })
-  .then(data => {
-    // Handle the received data (chosenFoods) from the server
-    console.log('Received chosen foods:', data.chosenFoods);
-
-    // Display the data of each chosen food in separate boxes on the frontend
-    const foodContainer = document.getElementById('foodContainer');
-    foodContainer.innerHTML = ''; // Clear previous content
-
-    data.chosenFoods.forEach(food => {
-      const foodBox = document.createElement('div');
-      foodBox.classList.add('food-box');
-
-      const foodContent = document.createElement('div');
-      foodContent.textContent = `Food Name: ${food.food_name}, Calories: ${food.calories}, Protein: ${food.protein}, Carbs: ${food.carbs}, Fat: ${food.fat}`;
-
-      foodBox.appendChild(foodContent);
-      foodContainer.appendChild(foodBox);
+          // Iterate over the fetched data and append rows to the table
+          response.data.forEach(function(item) {
+            $('#datatable tbody').append(`
+              <tr>
+                <td>${item.name}</td>
+                <td>${item.calories}</td>
+                <td>${item.carbs}</td>
+                <td>${item.fat}</td>
+                <td>${item.protein}</td>
+                <td>${item.allergens}</td>
+                <td>${item.minerals}</td>
+                <td>${item.vitamins}</td>
+                <td>${item.is_healthy}</td>
+              </tr>
+            `);
+          });
+        } else {
+          console.error('Error fetching food data:', response.error);
+          // Handle error if needed
+        }
+      },
+      error: function(err) {
+        console.error('Error:', err);
+        // Handle error if needed
+      }
     });
-  })
-  .catch(error => {
-    // Log and handle errors
-    console.error('Error:', error);
-    // You can add additional error handling here if needed
-  });
-}
-
+  }
 
 
       function enableCheckboxes() {
