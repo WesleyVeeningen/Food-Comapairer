@@ -1,97 +1,70 @@
-Food Comparer
-=============
+# Food Comparer
 
-This project is a web application that allows users to compare different food items and view their nutritional information. It is built using Node.js, Express, and Tailwind CSS, and uses the Spoonacular API to fetch data about food items.
+Compare foods side by side and see their nutritional values. Pick foods from the database to compare them, look up recipes through the Spoonacular API, and create an account to keep a profile. Built with Node.js, Express, EJS, Tailwind CSS and MySQL.
 
-Getting Started
----------------
+## Features
 
-To get started with the project, first make sure you have Node.js and npm installed on your machine. Then, follow these steps:
+- Compare the nutrition of foods from a MySQL `food_nutrition` table
+- Recipe search with the [Spoonacular API](https://spoonacular.com/food-api)
+- Register and log in, with passwords hashed with bcrypt (email verification pages exist but aren't wired up yet)
+- Profile and about pages
 
-1.  Clone the repository: `git clone https://github.com/your-username/food-comparer.git`
-2.  Navigate to the project directory: `cd food-comparer`
-3.  Install the dependencies: `npm install`
-4.  Start the development server: `npm start`
-5.  To start the tailwindcss build process: `npm run tailwind`
+## Stack
 
-The application will be available at `http://localhost:3000`.
+- Node.js, Express and EJS templates
+- Tailwind CSS
+- MySQL (`mysql2`), `express-session`, `bcryptjs`
+- Spoonacular API through `axios`
 
-Dependencies
-------------
+## Running it
 
-The following dependencies are used in this project:
+Requires Node.js and a MySQL database with `food_nutrition` and `users` tables.
 
--   axios: A promise-based HTTP client for the browser and Node.js
--   cookie-parser: A middleware for parsing cookie headers
--   debug: A debugging utility for Node.js
--   ejs: A simple templating language for Node.js
--   express: A web application framework for Node.js
--   http-errors: An error handling middleware for Node.js
--   morgan: A logging middleware for Node.js
+1. Install dependencies:
 
-Dev Dependencies
-----------------
+   ```bash
+   npm install
+   npm install node-fetch@2
+   ```
 
-The following dev dependencies are used in this project:
+   (`node-fetch` is used in `routes/index.js` but missing from `package.json`.)
 
--   nodemon: A development server that watches for changes and restarts the app
--   tailwindcss: A utility-first CSS framework for rapidly building custom user interfaces
+2. Create a `.env` file:
 
-Scripts
--------
+   ```
+   DB_HOST=localhost
+   DB_USER=root
+   DB_PASSWORD=
+   DB_NAME=food_comparer
+   SESSION_SECRET=any-long-random-string
+   ```
 
-The following scripts are available in the `package.json` file:
+3. Start the server and, in a second terminal, the Tailwind build:
 
--   `start`: Starts the development server
--   `tailwind`: Starts the tailwindcss build process
+   ```bash
+   npm start
+   npm run tailwind
+   ```
 
-Config
-------
+   Open http://localhost:3000.
 
-in your `spoonacularApi.js` file, you can import and use the API key:
+## Routes
 
-javascript
+| Route | What it does |
+| --- | --- |
+| `/` | Food list and comparison |
+| `/recipes` | Recipe search |
+| `/profiel` | Profile page |
+| `/about` | About page |
+| `/auth/login`, `/auth/register` | Accounts |
+| `/api/recipes/:query` | Spoonacular recipe search as JSON |
 
-DownloadCopy code
+## Project layout
 
-```javascript
-const axios = require('axios');
-const config = require('./config');
-
-const apiKey = 'YOUR_API_KEY';
-const apiUrl = 'https://api.spoonacular.com/recipes/complexSearch';
-
-async function searchRecipes(query, number) {
- try {
-   const params = {
-     apiKey: config.spoonacularApiKey,
-     query: query,
-     number: number,
-   };
-
-   const response = await axios.get(apiUrl, { params });
-
-   // Handle the API response
-   console.log(response.data);
-   return response.data;
- } catch (error) {
-   // Handle errors
-   console.error(error);
-   throw error; // Optionally rethrow the error for further handling
- }
-}
-
-module.exports = {
- searchRecipes: searchRecipes,
-};
 ```
-
-Contributing
-------------
-
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-License
--------
-
-This project is licensed under the MIT License - see the [LICENSE.md](https://www.blackbox.ai/LICENSE.md) file for details.
+app.js            Express setup
+database.js       MySQL connection pool
+routes/           pages (index), accounts (auth) and the recipe API (api)
+moduls/verify.js  verification email sender (not used yet)
+views/            EJS pages and partials
+```
